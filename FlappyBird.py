@@ -81,11 +81,20 @@ def check_collision(item1, item2):
     return item1.mask.overlap(item2.mask, (offset_x, offset_y)) is not None
 
 def control():
-    global gover
+    global gover, vel_y, mover, cair
+    mover = not gover
+
+    vel_y += mover
+    ply.y += mover * vel_y
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
             return False
+        if event.type == KEYDOWN and event.key == K_SPACE and gover:
+            gover = False
+        if event.type == pygame.MOUSEBUTTONDOWN and not cair:
+            vel_y = mover * -12  
+
     return True
 
 while game:
