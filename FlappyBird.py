@@ -8,6 +8,8 @@ width, height = 500, 800
 gover = True
 cair = False
 game = True
+mover = 1
+vel_y = 0
 
 pygame.init()
 win = pygame.display.set_mode((width, height))
@@ -22,26 +24,22 @@ asas = 0
 ply = itens.Itens(win, 200, height / 2, 34, 24, bird0, 0)
 fundo0 = itens.Itens(win, 0, 0, width, height, cena, 0)
 fundo1 = itens.Itens(win, width, 0, width, height, cena, 0)
-# piso0 = itens.Itens(win, 0, height - 30, width, 112, piso, 0)
+piso0 = itens.Itens(win, 0, height - 50, width, 112, piso, 0)
+piso1 = itens.Itens(win, width, height - 50, width, 112, piso, 0)
 
 
 def paint():
-    global asas
     pygame.display.update()
     pygame.time.delay(10)
     win.fill(0x3C2EE)
-
-    # Movendo o cenário
-    if (fundo0.x < -width):
-        fundo0.x = 0
-        fundo1.x = width
-
-    fundo0.x -= 1
-    fundo1.x -= 1
-
-    fundo0.show()
-    fundo1.show()
+    
+    move_fundo()
+    move_piso()
+    move_ply()
   
+
+def move_ply():
+    global asas
     ply.show()
 
     asas += 1
@@ -54,6 +52,28 @@ def paint():
 
     if asas > 15:
         asas = 0
+
+def move_fundo():
+    if (fundo0.x < -width):
+        fundo0.x = 0
+        fundo1.x = width
+
+    fundo0.x -= mover * 1
+    fundo1.x -= mover * 1
+
+    fundo0.show()
+    fundo1.show()
+
+def move_piso():
+    if (piso0.x < -width):
+        piso0.x = 0
+        piso1.x = width
+
+    piso0.x -= mover * 5
+    piso1.x -= mover * 5
+
+    piso0.show()
+    piso1.show()
 
 def check_collision(item1, item2):
     offset_x = item2.x - item1.x
