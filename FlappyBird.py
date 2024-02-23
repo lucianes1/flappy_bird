@@ -1,8 +1,17 @@
 import pygame
+import sys
 import os
 import random
 import itens
 from pygame.locals import *
+
+# Caminho para os arquivos de dados (imagens, sons, etc.)
+if getattr(sys, 'frozen', False):
+    # Se o aplicativo foi empacotado com PyInstaller
+    data_folder = os.path.join(sys._MEIPASS, 'imgs')
+else:
+    # Se o aplicativo está sendo executado em um ambiente de desenvolvimento
+    data_folder = 'imgs'
 
 width, height = 800, 600
 gover = True
@@ -15,12 +24,12 @@ speed = 4
 
 pygame.init()
 win = pygame.display.set_mode((width, height))
-bird0 = pygame.image.load("imgs/bird1.png")
-bird1 = pygame.image.load("imgs/bird2.png")
-bird2 = pygame.image.load("imgs/bird3.png")
-piso = pygame.image.load("imgs/base.png")
-tubo = pygame.image.load("imgs/tubo.png")
-cena = pygame.image.load("imgs/fundo.png")
+bird0 = pygame.image.load(os.path.join(data_folder, "bird1.png"))
+bird1 = pygame.image.load(os.path.join(data_folder, "bird2.png"))
+bird2 = pygame.image.load(os.path.join(data_folder, "bird3.png"))
+piso = pygame.image.load(os.path.join(data_folder, "base.png"))
+tubo = pygame.image.load(os.path.join(data_folder, "tubo.png"))
+cena = pygame.image.load(os.path.join(data_folder, "fundo.png"))
 asas = 0
 pts = 0
 
