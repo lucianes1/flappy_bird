@@ -24,7 +24,7 @@ cena = pygame.image.load("imgs/fundo.png")
 asas = 0
 pts = 0
 
-ply = itens.Itens(win, 200, height / 2, 34, 24, bird0, 0)
+ply = itens.Itens(win, 200, height / 2, 50, 50, bird0, 0)
 fundo0 = itens.Itens(win, 0, 210, width, height, cena, 0)
 fundo1 = itens.Itens(win, width, 210, width, height, cena, 0)
 piso0 = itens.Itens(win, 0, height - 50, width, 112, piso, 0)
@@ -51,7 +51,10 @@ def restart():
         cano[1][i].y = canoy + 470
         cano[1][i].r = 180
 
-
+    ply.y = height/3
+    vel_y = 0
+    cair = False
+    pts = 0
     
 
 def paint():
@@ -60,9 +63,10 @@ def paint():
     win.fill(0x3C2EE)
     
     move_fundo()
-    move_ply()
+    
     move_cano()
     move_piso()
+    move_ply()
 
 def move_cano():
     for i in range(4):
@@ -109,14 +113,12 @@ def move_fundo():
 
 def move_piso():
     if (piso0.x < -width):
-        print('caiu')
         piso0.x = 0
         piso1.x = width
 
     piso0.x -= mover * 5
     piso1.x -= mover * 5
     
-
     piso0.show()
     piso1.show()
 
@@ -133,7 +135,6 @@ def control():
     ply.y += vel_y
     ply.r = mover * (-vel_y) * 3
 
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
             return False
@@ -145,7 +146,26 @@ def control():
 
     return True
 
+def jogo():
+    global gover, mover, asas, cair, pts, top
+
+    #Perdendo
+    for i in range(2):
+        for j in range(4):
+            if (check_collision(cano[i][j], ply) and cano[i][j].visible):
+                cair = True
+            if not i and 200 < cano[i][j].x < 205 and cano[i][j].visible and not gover:
+                pts += 1
+                if ply.y < cano[i][j].y:
+                    cair = True
+    if ply.y > piso0.y - ply.h:
+        gover = True
+        ply.r = -90
+        asas = 0
+        cair = True                    
+
 while game:
+    jogo()
     paint()
     game = control()
 
