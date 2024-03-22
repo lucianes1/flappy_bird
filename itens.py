@@ -15,14 +15,12 @@ class Itens:
         self.transformed_img = None
         self.update_transformations()
 
-    # def __setattr__(self, name, value):
-    #     permitted_attributes = ['win', 'x', 'y', 'w', 'h', '_img', '_r', 'visible', 
-    #                             'mask', 'transformed_img', 'img', 'r', 
-    #                             'vel_pulo', 'gravidade', 'pulando', 'vel_movimento']  # Adicione 'vel_movimento' aqui
-    #     if name in permitted_attributes:
-    #         super().__setattr__(name, value)
-    #     else:
-    #         raise AttributeError(f"Atributo '{name}' não é permitido na classe Itens.")
+    def __setattr__(self, name, value):
+        permitted_attributes = ['win', 'x', 'y', 'w', 'h', '_img', '_r', 'visible', 'mask', 'transformed_img', 'img', 'r']
+        if name in permitted_attributes:
+            super().__setattr__(name, value)
+        else:
+            raise AttributeError(f"Atributo '{name}' não é permitido na classe Itens.")
 
     @property
     def r(self):
@@ -44,12 +42,9 @@ class Itens:
         self.update_transformations()   
 
     def update_transformations(self):
-        if self._img is not None:
-            self.transformed_img = pygame.transform.rotate(self.img, self.r)
-            self.transformed_img = pygame.transform.scale(self.transformed_img, (self.w, self.h))
-            self.mask = pygame.mask.from_surface(self.transformed_img)
-        else:
-            print("Aviso: Imagem não carregada corretamente.")
+        self.transformed_img = pygame.transform.rotate(self.img, self.r)
+        self.transformed_img = pygame.transform.scale(self.transformed_img, (self.w, self.h))
+        self.mask = pygame.mask.from_surface(self.transformed_img)
             
 
     def show(self):
