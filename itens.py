@@ -51,7 +51,7 @@ class Itens:
         else:
             print("Aviso: Imagem não carregada corretamente.")
             
-
+ 
     def show(self):
         if self.visible:
             self.win.blit(self.transformed_img, (self.x, self.y))
